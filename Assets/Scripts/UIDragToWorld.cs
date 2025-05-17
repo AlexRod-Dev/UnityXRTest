@@ -1,29 +1,75 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class UIDragToWorld : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public GameObject objectToPlace;
-    public Color validColor = Color.green;
-    public Color invalidColor = Color.red;
+    [SerializeField]
+    private GameObject objectToPlace;
+   
+    
+    [SerializeField]
+    private Color validColor = Color.green;
+    
+    [SerializeField]
+    private Color invalidColor = Color.red;
     
 
     private GameObject previewObject;
     private Camera mainCamera;
-    private MaterialPropertyBlock propBlock;
     private Renderer previewRenderer;
-
+    private MaterialPropertyBlock propBlock;
+    
     private Vector3 fixedScale;
     private float fixedY;
+    private bool bCanPlace;
 
-    private bool canPlace = false;
+    private float currentRotationY = 0f;
+    private float rotationStep = 15f;
+
+    private bool bSnapToGrid;
+    private float snapSize;
 
     void Start()
     {
+        bCanPlace = false;
+        bSnapToGrid = false;
+        snapSize = 1f;
+        
         mainCamera = Camera.main;
         propBlock = new MaterialPropertyBlock();
+        
+    }
 
-        invalidColor.a = 0.02f;
+    private void Update()
+    {
+        if (!previewObject) return;
+        
+        float rotationSpeed = rotationStep * Time.deltaTime * 10f;
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            currentRotationY -= rotationSpeed;
+            ApplyRotation();
+        }
+        else if (Input.GetKey(KeyCode.E))
+        {
+            currentRotationY += rotationSpeed;
+            ApplyRotation();
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            bSnapToGrid = !bSnapToGrid;
+            Debug.Log("Snap to Grid: " + (bSnapToGrid ? "ON" : "OFF"));
+        }
+        
+    }
+
+    private void ApplyRotation()
+    {
+        previewObject.transform.rotation = Quaternion.Euler(0f, currentRotationY, 0f);
+        
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -31,7 +77,7 @@ public class UIDragToWorld : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (objectToPlace == null) return;
 
         previewObject = Instantiate(objectToPlace);
-        previewObject.transform.SetParent(null);
+       
 
         fixedScale = objectToPlace.transform.localScale;
         previewObject.transform.localScale = fixedScale;
@@ -63,20 +109,26 @@ public class UIDragToWorld : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             Vector3 pos = hit.point;
             pos.y = fixedY; // always keep it grounded
 
+            if (bSnapToGrid)
+            {
+                pos.x = Mathf.Round(pos.x / snapSize) * snapSize;
+                pos.z = Mathf.Round(pos.z / snapSize) * snapSize;
+            }
+
             previewObject.transform.position = pos;
             previewObject.transform.localScale = fixedScale; // enforce constant scale
 
-            canPlace = hit.collider.CompareTag("Ground") && !IsOverlapping(pos);
+            bCanPlace = hit.collider.CompareTag("Ground") && !IsOverlapping(pos);
 
-            SetPreviewColor(canPlace ? validColor : invalidColor);
+            SetPreviewColor(bCanPlace ? validColor : invalidColor);
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (canPlace)
+        if (bCanPlace)
         {
-            GameObject placedObject = Instantiate(objectToPlace, previewObject.transform.position, Quaternion.identity);
+            GameObject placedObject = Instantiate(objectToPlace, previewObject.transform.position, previewObject.transform.rotation);
             placedObject.transform.localScale = fixedScale;
             placedObject.transform.SetParent(GameObject.FindGameObjectWithTag("Ground")?.transform);
         }

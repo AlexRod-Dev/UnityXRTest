@@ -1050,7 +1050,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5104334, y: -0, z: -0, w: 0.85991734}
-  m_LocalPosition: {x: 6, y: 23.29, z: -26.17}
+  m_LocalPosition: {x: 6, y: 22.04, z: -22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2003,6 +2003,7 @@ GameObject:
   - component: {fileID: 1062284540}
   - component: {fileID: 1062284539}
   - component: {fileID: 1062284541}
+  - component: {fileID: 1062284542}
   m_Layer: 5
   m_Name: ObjectSelectionPanel
   m_TagString: Untagged
@@ -2097,6 +2098,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1062284542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062284537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20b5fb35a8bbdb140bb315699bc5827f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slideSpeed: 5
+  visibleY: 55
+  hiddenY: -200
 --- !u!1001 &1095151070
 PrefabInstance:
   m_ObjectHideFlags: 0
