@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class EditorStyleCamera : MonoBehaviour
 {
-    public float moveSpeed = 10f;
-    public float boostMultiplier = 3f;
-    public float mouseSensitivity = 3f;
-    public float scrollSpeed = 5f;
+    
+    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float boostMultiplier = 3f;
+    [SerializeField] private float mouseSensitivity = 3f;
+    [SerializeField] private float scrollSpeed = 5f;
 
     private float yaw = 0f;
     private float pitch = 0f;
