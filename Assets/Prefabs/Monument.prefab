@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: f366ec1535b72a841ac031961d69f6e6, type: 3}
       propertyPath: m_Name
-      value: Houses.006
+      value: Monument
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f366ec1535b72a841ac031961d69f6e6, type: 3}
       propertyPath: m_LocalScale.x
@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: efdaf9d7b48fb6549890bdc56199eef1, type: 2}
+    - target: {fileID: 6400000, guid: f366ec1535b72a841ac031961d69f6e6, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
