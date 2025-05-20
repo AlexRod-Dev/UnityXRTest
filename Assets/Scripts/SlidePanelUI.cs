@@ -2,19 +2,13 @@ using UnityEngine;
 
 public class SlidePanelUI : MonoBehaviour
 {
-
     [SerializeField] private float slideSpeed = 5f;
     [SerializeField] private float visibleY = 55f;
     [SerializeField] private float hiddenY = -200f;
 
-
     private bool bIsVisible;
     private RectTransform rectTransform;
     
-    
-    
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         bIsVisible = false;

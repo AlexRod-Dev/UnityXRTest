@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SnowController : MonoBehaviour
 {
     [SerializeField] private ParticleSystem snowParticles;
+    [SerializeField] private ParticleSystem snowParticles2;
     [SerializeField] private Transform cityRoot;
 
     private bool bIsSnowing = false;
@@ -22,8 +24,8 @@ public class SnowController : MonoBehaviour
         {
             if (!bIsSnowing)
             {
-                snowParticles.Play();
-                bIsSnowing = true;
+                StartCoroutine(SnowfallRoutine());
+             
             }
         }
 
@@ -35,6 +37,29 @@ public class SnowController : MonoBehaviour
             }
            
         }
+    }
+
+    private IEnumerator SnowfallRoutine()
+    {
+        bIsSnowing = true;
+
+        snowParticles.Play();
+        snowParticles2.Play();
+
+        // Wait for 3 seconds while snow accumulates
+        yield return new WaitForSeconds(3f);
+
+        // Stop emission and clear existing particles
+        snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        snowParticles2.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        // Optional: allow some time for remaining particles to fall
+        yield return new WaitForSeconds(3f);
+
+        snowParticles.Clear();
+        snowParticles2.Clear();
+
+        bIsSnowing = false;
     }
 
     private IEnumerator TiltCity()
@@ -65,8 +90,6 @@ public class SnowController : MonoBehaviour
         cityRoot.rotation = startRotation;
         bIsTilting = false;
 
-        // Clear snow particles
-        snowParticles.Clear();
-        bIsSnowing = false;
+      
     }
 }

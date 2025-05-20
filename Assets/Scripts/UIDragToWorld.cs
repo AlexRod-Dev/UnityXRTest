@@ -82,7 +82,6 @@ public class UIDragToWorld : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private void ApplyRotation()
     {
         previewObject.transform.rotation = Quaternion.Euler(0f, currentRotationY, 0f);
-       
 
     }
 
@@ -130,7 +129,7 @@ public class UIDragToWorld : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         // Start smooth ghost follow
         followCoroutine = StartCoroutine(SmoothFollowGhost());
     }
-
+    
     private IEnumerator SmoothFollowGhost()
     {
         float elapsed = 0f;
@@ -238,7 +237,6 @@ public class UIDragToWorld : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         foreach (var col in colliders)
         {
             if (!col.CompareTag("Ground") && !col.transform.IsChildOf(previewObject.transform))
-            
                 return true;
         }
 
